@@ -13,8 +13,4 @@ public class Piece {
 	protected Board getBoard() {// Usa-se somente o get pois não instancia outro tabuleiro
 		return board;
 	}
-
-	
-	
-
 }
