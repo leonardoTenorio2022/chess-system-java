@@ -35,4 +35,9 @@ public class Board {
 	public Piece piece (Position position) {//para retornar a posição da peça
 		return pieces[position.getRow()][position.getColumn()];
 	}
+	
+	public void placePiece (Piece piece, Position position) {
+		pieces[position.getRow()][position.getColumn()] = piece;
+		piece.position = position; // Está no mesmo pacote, então o protected pode ser acessado
+	}
 }
