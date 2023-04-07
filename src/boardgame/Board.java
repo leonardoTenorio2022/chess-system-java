@@ -45,6 +45,19 @@ public class Board {
 		piece.position = position; // Está no mesmo pacote, então o protected pode ser acessado
 	}
 	
+	public Piece removePiece(Position position) {
+		if (!positionExists(position)) {
+			throw new BoardException("Position not on the board");
+		}
+		if (piece(position) == null) {
+			return null;
+		}
+		Piece aux = piece(position);// A peça existe, mas é alterada através do aux
+		aux.position = null;
+		pieces[position.getRow()][position.getColumn()] = null; // Usa a matriz de peças p/ receber o null
+		return aux;		
+	}
+	
 	private boolean positionExists(int row, int column) {// Para ver se está dentro do tabuleiro
 		return row >= 0 && row < rows && column >= 0 && column < columns;
 	}
