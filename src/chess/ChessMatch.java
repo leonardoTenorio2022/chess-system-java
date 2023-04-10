@@ -46,6 +46,10 @@ public class ChessMatch {// Essa classe deve saber o tamanho do tabuleiro, por i
 		if (!board.thereIsAPiece(position)) {
 			throw new ChessException("There is no piece in source position");//Essa exceção também é uma BoardException
 		}
+		if (!board.piece(position).isThereAnyPossibleMove()) {//testa movimentos possíveis dentro do tabuleiro
+			throw new ChessException("There is no possible moves for the chosen piece");
+		}
+		
 	}
 
 	private void placeNewPiece(char column, int row, ChessPiece piece) {
