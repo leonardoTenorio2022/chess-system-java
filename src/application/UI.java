@@ -29,14 +29,21 @@ public class UI {
 	public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
 	public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
-	public static ChessPosition readChessPosition(Scanner sc) {//O que vier do Scanner da classe program será usado aqui
+	// https://stackoverflow.com/questions/2979383/java-clear-the-console = para
+	// limpar a tela
+	public static void clearScreen() {
+		System.out.println("\33[H\033[2J");
+		System.out.flush();
+	}
+
+	public static ChessPosition readChessPosition(Scanner sc) {// O que vier do Scanner da classe program será usado
+																// aqui
 		try {
 			String s = sc.nextLine();
 			char column = s.charAt(0);
 			int row = Integer.parseInt(s.substring(1));// fazer desta forma para recortar a variável s
 			return new ChessPosition(column, row);
-		} 
-		catch (RuntimeException e) {
+		} catch (RuntimeException e) {
 			throw new InputMismatchException("Error reading ChessPosition. Valid values are from a1 to h8.");
 		}
 	}
