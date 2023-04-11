@@ -30,6 +30,7 @@ public class ChessMatch {// Essa classe deve saber o tamanho do tabuleiro, por i
 		Position source = sourcePosition.toPosition();
 		Position target = targetPosition.toPosition();
 		validateSourcePosition(source);//Método para validar posição de origem
+		validateTargetPosition(source, target);//Método para validar posição de destino
 		Piece capturedPiece = makeMove(source, target);//makeMove() realiza o movimento, capturedPiece é a peça a ser alterada 
 		return (ChessPiece)capturedPiece;//Fazer downcasting para sair da posição de matriz e virar uma peça
 	}
@@ -50,6 +51,13 @@ public class ChessMatch {// Essa classe deve saber o tamanho do tabuleiro, por i
 			throw new ChessException("There is no possible moves for the chosen piece");
 		}
 		
+	}
+	
+	private void validateTargetPosition(Position source, Position target) {
+		if (!board.piece(source).PossibleMove(target)) {
+			//chamar uma peça no tabuleiro na posição de origem chamando um possibleMove() da posição de destino
+			throw new ChessException("The chosen piece can't move to target position");//Essa exceção também é uma BoardException
+		}		
 	}
 
 	private void placeNewPiece(char column, int row, ChessPiece piece) {
