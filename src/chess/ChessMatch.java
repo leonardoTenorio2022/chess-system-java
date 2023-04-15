@@ -26,6 +26,13 @@ public class ChessMatch {// Essa classe deve saber o tamanho do tabuleiro, por i
 		return mat;
 	}
 	
+	public boolean[][] possibleMoves(ChessPosition sourcePosition){// Apenas a posição de origem. Destino solicita depois.
+		Position position = sourcePosition.toPosition();//Converter p/ posição de matriz
+		validateSourcePosition(position);//Possivel validação agora
+		return board.piece(position).possibleMoves();
+		//Método serve para imprimir movimentos possíveis a partir da posição de origem
+	}
+	
 	public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
 		Position source = sourcePosition.toPosition();
 		Position target = targetPosition.toPosition();
