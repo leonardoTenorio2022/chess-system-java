@@ -8,12 +8,26 @@ import chess.pieces.Rook;
 
 public class ChessMatch {// Essa classe deve saber o tamanho do tabuleiro, por isso essa instacia abaixo
 							// 8/8
+	private int turn;
+	private Color currentPlayer;
 	private Board board;
 
 	public ChessMatch() {
 		board = new Board(8, 8);
+		turn = 1;
+		currentPlayer = Color.WHITE;
 		initialSetup();// chama o método no construtor para, quando iniciar a partida já existam as
 						// peças
+	}
+	
+	
+
+	public int getTurn() {
+		return turn;
+	}
+	
+	public Color getCurrentPlayer() {
+		return currentPlayer;
 	}
 
 	public ChessPiece[][] getPieces() {
@@ -39,6 +53,7 @@ public class ChessMatch {// Essa classe deve saber o tamanho do tabuleiro, por i
 		validateSourcePosition(source);//Método para validar posição de origem
 		validateTargetPosition(source, target);//Método para validar posição de destino
 		Piece capturedPiece = makeMove(source, target);//makeMove() realiza o movimento, capturedPiece é a peça a ser alterada 
+		nextTurn();
 		return (ChessPiece)capturedPiece;//Fazer downcasting para sair da posição de matriz e virar uma peça
 	}
 	
@@ -54,6 +69,10 @@ public class ChessMatch {// Essa classe deve saber o tamanho do tabuleiro, por i
 		if (!board.thereIsAPiece(position)) {
 			throw new ChessException("There is no piece in source position");//Essa exceção também é uma BoardException
 		}
+		if (currentPlayer != ((ChessPiece)board.piece(position)).getColor()) {//fazer downcasting p/ ChessPiece senão não analisa a cor
+			throw new ChessException("The chosen piece is not yours");
+			
+		}
 		if (!board.piece(position).isThereAnyPossibleMove()) {//testa movimentos possíveis dentro do tabuleiro
 			throw new ChessException("There is no possible moves for the chosen piece");
 		}
@@ -65,6 +84,12 @@ public class ChessMatch {// Essa classe deve saber o tamanho do tabuleiro, por i
 			//chamar uma peça no tabuleiro na posição de origem chamando um possibleMove() da posição de destino
 			throw new ChessException("The chosen piece can't move to target position");//Essa exceção também é uma BoardException
 		}		
+	}
+	
+	private void nextTurn() {
+		turn++;
+		currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK : Color.WHITE;
+		//Lê-se: se o jogador atual for cor branca, passa a ser preto, senão passa a ser cor branca
 	}
 
 	private void placeNewPiece(char column, int row, ChessPiece piece) {
