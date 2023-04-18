@@ -1,7 +1,10 @@
 package application;
 
+import java.util.Arrays;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import chess.ChessMatch;
 import chess.ChessPiece;
@@ -50,9 +53,10 @@ public class UI {
 		}
 	}
 	
-	public static void printMatch(ChessMatch chessMatch) {
+	public static void printMatch(ChessMatch chessMatch, List<ChessPiece> captured) {
 		printBoard(chessMatch.getPieces());
 		System.out.println();
+		printCapturedPieces(captured);
 		System.out.println("Turn: " + chessMatch.getTurn());
 		System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
 	}
@@ -93,5 +97,21 @@ public class UI {
 			}
 		}
 		System.out.print(" ");
+	}
+	
+	private static void printCapturedPieces(List <ChessPiece> captured) {
+		List <ChessPiece> white = captured.stream().filter(x -> x.getColor() == Color.WHITE).collect(Collectors.toList());
+		//Declarar lista da cor white usando função lambda. Vai localizar elementos x na lista de cor white e coltar para a lista white
+		List <ChessPiece> black = captured.stream().filter(x -> x.getColor() == Color.BLACK).collect(Collectors.toList());
+		//Mesma função lambda para todas as peças Black
+		System.out.println("Captured pieces: ");
+		System.out.print("White: ");
+		System.out.println(ANSI_WHITE);//Para imprimir na cor Black
+		System.out.println(Arrays.toString(white.toArray()));//Macete para imprimir as peças da lista
+		System.out.println(ANSI_RESET);//Para limpar a cor da impressão
+		System.out.print("Black: ");
+		System.out.println(ANSI_YELLOW);//Para imprimir na cor Black
+		System.out.println(Arrays.toString(black.toArray()));//Macete para imprimir as peças da lista
+		System.out.println(ANSI_RESET);//Para limpar a cor da impressão
 	}
 }
