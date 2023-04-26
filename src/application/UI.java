@@ -1,5 +1,6 @@
 package application;
 
+
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -52,15 +53,22 @@ public class UI {
 			throw new InputMismatchException("Error reading ChessPosition. Valid values are from a1 to h8.");
 		}
 	}
-	
+
 	public static void printMatch(ChessMatch chessMatch, List<ChessPiece> captured) {
 		printBoard(chessMatch.getPieces());
 		System.out.println();
 		printCapturedPieces(captured);
+		System.out.println();
 		System.out.println("Turn: " + chessMatch.getTurn());
-		System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
-		if (chessMatch.getCheck()) {
-			System.out.println("CHECK!");
+		if (!chessMatch.getCheckMate()) {//testa pra ver se não está em checkMate
+			System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
+			if (chessMatch.getCheck()) {
+				System.out.println("CHECK!");
+			}
+		}
+		else {
+			System.out.println("CHECKMATE!");	
+			System.out.println("Winner: " + chessMatch.getCurrentPlayer());//Para aparecer a cor do vencedor
 		}
 	}
 
@@ -74,8 +82,8 @@ public class UI {
 		}
 		System.out.println("  a b c d e f g h");
 	}
-	
-	public static void printBoard(ChessPiece[][] pieces, boolean[][] possibleMoves) {
+
+	public static void printBoard(ChessPiece[][] pieces, boolean[][] possibleMoves) {//Método para posições de xadrez
 		for (int i = 0; i < pieces.length; i++) {
 			System.out.print(8 - i + " ");
 			for (int j = 0; j < pieces.length; j++) {
@@ -88,10 +96,10 @@ public class UI {
 
 	public static void printPiece(ChessPiece piece, boolean background) {
 		if (background) {
-			System.out.print(ANSI_BLUE_BACKGROUND);//background aponta movimentos possíveis
+			System.out.print(ANSI_BLUE_BACKGROUND);// background aponta movimentos possíveis
 		}
 		if (piece == null) {
-			System.out.print("-" + ANSI_RESET);//Ansi_Reset, para apagar o movimento anterior
+			System.out.print("-" + ANSI_RESET);// Ansi_Reset, para apagar o movimento anterior
 		} else {
 			if (piece.getColor() == Color.WHITE) {
 				System.out.print(ANSI_WHITE + piece + ANSI_RESET);
@@ -101,20 +109,22 @@ public class UI {
 		}
 		System.out.print(" ");
 	}
-	
-	private static void printCapturedPieces(List <ChessPiece> captured) {
-		List <ChessPiece> white = captured.stream().filter(x -> x.getColor() == Color.WHITE).collect(Collectors.toList());
-		//Declarar lista da cor white usando função lambda. Vai localizar elementos x na lista de cor white e coltar para a lista white
-		List <ChessPiece> black = captured.stream().filter(x -> x.getColor() == Color.BLACK).collect(Collectors.toList());
-		//Mesma função lambda para todas as peças Black
+
+	private static void printCapturedPieces(List<ChessPiece> captured) {
+		List<ChessPiece> white = captured.stream().filter(x -> x.getColor() == Color.WHITE)	.collect(Collectors.toList());
+		// Declarar lista da cor white usando função lambda. Vai localizar elementos x
+		// na lista de cor white e voltar para a lista white
+		List<ChessPiece> black = captured.stream().filter(x -> x.getColor() == Color.BLACK)	.collect(Collectors.toList());
+		// Mesma função lambda para todas as peças Black
 		System.out.println("Captured pieces: ");
 		System.out.print("White: ");
-		System.out.println(ANSI_WHITE);//Para imprimir na cor Black
-		System.out.println(Arrays.toString(white.toArray()));//Macete para imprimir as peças da lista
-		System.out.println(ANSI_RESET);//Para limpar a cor da impressão
+		System.out.println(ANSI_WHITE);// Para imprimir na cor Black
+		System.out.println(Arrays.toString(white.toArray()));// Macete para imprimir as peças da lista
+		System.out.println(ANSI_RESET);// Para limpar a cor da impressão
 		System.out.print("Black: ");
-		System.out.println(ANSI_YELLOW);//Para imprimir na cor Black
-		System.out.println(Arrays.toString(black.toArray()));//Macete para imprimir as peças da lista
-		System.out.println(ANSI_RESET);//Para limpar a cor da impressão
-	}
+		System.out.println(ANSI_YELLOW);// Para imprimir na cor Black
+		System.out.println(Arrays.toString(black.toArray()));// Macete para imprimir as peças da lista
+		System.out.println(ANSI_RESET);// Para limpar a cor da impressão
+	}	
 }
+
