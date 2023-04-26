@@ -87,7 +87,8 @@ public class ChessMatch {// Essa classe deve saber o tamanho do tabuleiro, por i
 	}
 	
 	private Piece makeMove(Position source, Position target) {
-		Piece p = board.removePiece(source);
+		ChessPiece p = (ChessPiece)board.removePiece(source);//retira a peça de onde está
+		p.increaseMoveCount();//Altera para ChessPiece para o método increase funcionar
 		Piece capturedPiece = board.removePiece(target);//retira possível peça de destino
 		board.placePiece(p, target);//Coloca a peça p no lugar que estava a peça capturada
 		
@@ -100,7 +101,8 @@ public class ChessMatch {// Essa classe deve saber o tamanho do tabuleiro, por i
 	}
 	
 	private void undoMove(Position source, Position target, Piece capturedPiece) {//Método para desfazer o movimento
-		Piece p = board.removePiece(target);//tirar a peça da posição de destino
+		ChessPiece p = (ChessPiece)board.removePiece(target);//tirar a peça da posição de destino
+		p.decreaseMoveCount();//Altera para ChessPiece para o método decrease funcionar
 		board.placePiece(p, source);//Devolver a peça a posição de origem
 		
 		if (capturedPiece != null) {

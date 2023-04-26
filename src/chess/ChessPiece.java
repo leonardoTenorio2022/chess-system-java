@@ -7,6 +7,7 @@ import boardgame.Position;
 public abstract class ChessPiece extends Piece{
 	
 	private Color color;
+	private int moveCount;//Atributo iniciado como int, inicia == 0, não precisa acrescentar no construtor
 
 	public ChessPiece(Board board, Color color) {
 		super(board);
@@ -15,6 +16,18 @@ public abstract class ChessPiece extends Piece{
 
 	public Color getColor() {//Somente get pois uma vez passado o color, não altera mais, como o board
 		return color;
+	}
+	
+	public int getMoveCount() {
+		return moveCount;
+	}
+	
+	public void increaseMoveCount() {
+		moveCount++;
+	}
+	
+	public void decreaseMoveCount() {
+		moveCount--;
 	}
 	
 	public ChessPosition getChessPosition() {
