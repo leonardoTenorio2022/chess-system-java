@@ -118,12 +118,12 @@ public class UI {
 		// Mesma função lambda para todas as peças Black
 		System.out.println("Captured pieces: ");
 		System.out.print("White: ");
-		System.out.println(ANSI_WHITE);// Para imprimir na cor Black
-		System.out.println(Arrays.toString(white.toArray()));// Macete para imprimir as peças da lista
+		System.out.print(ANSI_WHITE);// Para imprimir na cor Black
+		System.out.print(Arrays.toString(white.toArray()));// Macete para imprimir as peças da lista
 		System.out.println(ANSI_RESET);// Para limpar a cor da impressão
 		System.out.print("Black: ");
-		System.out.println(ANSI_YELLOW);// Para imprimir na cor Black
-		System.out.println(Arrays.toString(black.toArray()));// Macete para imprimir as peças da lista
+		System.out.print(ANSI_YELLOW);// Para imprimir na cor Black
+		System.out.print(Arrays.toString(black.toArray()));// Macete para imprimir as peças da lista
 		System.out.println(ANSI_RESET);// Para limpar a cor da impressão
 	}	
 }
