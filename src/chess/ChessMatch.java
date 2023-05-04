@@ -100,6 +100,25 @@ public class ChessMatch {// Essa classe deve saber o tamanho do tabuleiro, por i
 			piecesOnTheBoard.remove(capturedPiece);//Tirar do tabuleiro
 			capturedPieces.add(capturedPiece);//Adicionar na lista de capturados
 		}
+		
+		//#Special move = Roque pequeno (Castling Kingside Rook)
+		if(p instanceof King && target.getColumn() == source.getColumn() + 2) {//testa se o rei moveu duas casas a direita
+			Position sourceT = new Position(source.getRow(), source.getColumn() + 3);//Pos da Rook, mesma linha que o rei mais três colunas
+			Position targetT = new Position(source.getRow(), source.getColumn() + 1);//Pos da Rook uma coluna a dir do rei
+			ChessPiece rook = (ChessPiece)board.removePiece(sourceT);//Para tirar o Rook de onde está
+			board.placePiece(rook, targetT);//Coloca na posição que deve ir
+			rook.increaseMoveCount();//pelo fato de ter movido a torre
+		}
+		
+		//#Special move = Roque grande (Castling Queenside Rook)
+		if(p instanceof King && target.getColumn() == source.getColumn() - 2) {//testa se o rei moveu duas casas a direita
+			Position sourceT = new Position(source.getRow(), source.getColumn() - 4);//Pos da Rook, mesma linha que o rei mais três colunas
+			Position targetT = new Position(source.getRow(), source.getColumn() - 1);//Pos da Rook uma coluna a dir do rei
+			ChessPiece rook = (ChessPiece)board.removePiece(sourceT);//Para tirar o Rook de onde está
+			board.placePiece(rook, targetT);//Coloca na posição que deve ir
+			rook.increaseMoveCount();//pelo fato de ter movido a torre
+		}		
+		
 		return capturedPiece;
 		
 	}
@@ -113,6 +132,24 @@ public class ChessMatch {// Essa classe deve saber o tamanho do tabuleiro, por i
 			board.placePiece(capturedPiece, target);// retorna para posição de destino
 			capturedPieces.remove(capturedPiece); //Tirar peça capturada da lista
 			piecesOnTheBoard.add(capturedPiece);// Devolve para o tabuleiro
+		}
+		
+		//#Special move = Roque pequeno (Castling Kingside Rook)
+		if(p instanceof King && target.getColumn() == source.getColumn() + 2) {//testa se o rei moveu duas casas a direita
+			Position sourceT = new Position(source.getRow(), source.getColumn() + 3);//Pos da Rook, mesma linha que o rei mais três colunas
+			Position targetT = new Position(source.getRow(), source.getColumn() + 1);//Pos da Rook uma coluna a dir do rei
+			ChessPiece rook = (ChessPiece)board.removePiece(targetT);//Para tirar o Rook de onde está
+			board.placePiece(rook, sourceT);//Coloca na posição que deve ir, aqui é o inverso do anterior
+			rook.decreaseMoveCount();//pelo fato de ter movido a torre
+		}
+		
+		//#Special move = Roque grande (Castling Queenside Rook)
+		if(p instanceof King && target.getColumn() == source.getColumn() - 2) {//testa se o rei moveu duas casas a direita
+			Position sourceT = new Position(source.getRow(), source.getColumn() - 4);//Pos da Rook, mesma linha que o rei mais três colunas
+			Position targetT = new Position(source.getRow(), source.getColumn() - 1);//Pos da Rook uma coluna a dir do rei
+			ChessPiece rook = (ChessPiece)board.removePiece(targetT);//Para tirar o Rook de onde está
+			board.placePiece(rook, sourceT);//Coloca na posição que deve ir
+			rook.decreaseMoveCount();//pelo fato de ter movido a torre
 		}
 	}
 	
@@ -196,8 +233,7 @@ public class ChessMatch {// Essa classe deve saber o tamanho do tabuleiro, por i
 						}
 						
 					}
-				}
-				
+				}				
 			}
 		}
 		return true;
@@ -208,7 +244,7 @@ public class ChessMatch {// Essa classe deve saber o tamanho do tabuleiro, por i
 		placeNewPiece('b', 1, new Knight(board, Color.WHITE));
 		placeNewPiece('c', 1, new Bishop(board, Color.WHITE));
 		placeNewPiece('d', 1, new Queen(board, Color.WHITE));
-		placeNewPiece('e', 1, new King(board, Color.WHITE));
+		placeNewPiece('e', 1, new King(board, Color.WHITE, this));//Usa-se a palavra this devido a mudança no contrutor
 		placeNewPiece('f', 1, new Bishop(board, Color.WHITE));
 		placeNewPiece('g', 1, new Knight(board, Color.WHITE));
 		placeNewPiece('h', 1, new Rook(board, Color.WHITE));
@@ -226,7 +262,7 @@ public class ChessMatch {// Essa classe deve saber o tamanho do tabuleiro, por i
 		placeNewPiece('b', 8, new Knight(board, Color.BLACK));
 		placeNewPiece('c', 8, new Bishop(board, Color.BLACK));
 		placeNewPiece('d', 8, new Queen(board, Color.BLACK));
-		placeNewPiece('e', 8, new King(board, Color.BLACK));
+		placeNewPiece('e', 8, new King(board, Color.BLACK, this));// Passa a própria partida na hora de instanciar
 		placeNewPiece('f', 8, new Bishop(board, Color.BLACK));
 		placeNewPiece('g', 8, new Knight(board, Color.BLACK));
 		placeNewPiece('h', 8, new Rook(board, Color.BLACK));
