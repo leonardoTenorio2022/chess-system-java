@@ -1,6 +1,5 @@
 package chess;
 
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -128,7 +127,7 @@ public class ChessMatch {// Essa classe deve saber o tamanho do tabuleiro, por i
 		}
 		//Por isso que colocou a rainha no lugar do peão, senão dária null e não funcionaria a troca
 		if (!type.equals("B") && !type.equals("N") && !type.equals("R") && !type.equals("Q")) {
-			throw new InvalidParameterException("Invalid type for promotion");// Se não for nenhuma das letras acima, apresentar excessão
+			return promoted;// Mantém a Rainha que já está lá e não faz nada
 		}
 		
 		Position pos = promoted.getChessPosition().toPosition();//Criar a variavel com a posição da promoted

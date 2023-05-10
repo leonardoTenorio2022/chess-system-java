@@ -41,7 +41,11 @@ public class Program {
 				
 				if (chessMatch.getPromoted() != null) {//Se for dif de null, uma peça foi promovida
 					System.out.println("Enter piece for promotion (N/N/R/Q): ");
-					String type = sc.nextLine();
+					String type = sc.nextLine().toUpperCase();
+					while ((!type.equals("B") && !type.equals("N") && !type.equals("R") && !type.equals("Q"))) {//Fazer isso para não quebrar o prog e só validar quando for uma das 4 letras
+						System.out.println("Invalid value. Enter piece for promotion (N/N/R/Q): ");
+						type = sc.nextLine().toUpperCase();						
+					}
 					chessMatch.replacePromotedPiece(type);
 				}
 			}
